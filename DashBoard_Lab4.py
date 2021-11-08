@@ -17,7 +17,6 @@ import pydeck as pdk
 def importData(wt): 
     
     val= pd.read_csv(wt).sample(100000)
-    val.to_csv(wt,index = None)
     return val
 
 def selectdate():
@@ -26,7 +25,7 @@ def selectdate():
     ("2020", "2019", "2018","2017","2016")  
 )
     if (add_selectbox== "2020"):
-        df =importData("https://www.data.gouv.fr/fr/datasets/r/90a98de0-f562-4328-aa16-fe0dd1dca60f")
+        df =importData("https://jtellier.fr/DataViz/full_2020.csv")
     elif(add_selectbox== "2019"):
         df =importData("https://jtellier.fr/DataViz/full_2019.csv")
     elif(add_selectbox== "2018"):
