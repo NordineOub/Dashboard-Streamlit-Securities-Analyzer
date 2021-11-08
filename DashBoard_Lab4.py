@@ -16,7 +16,7 @@ import pydeck as pdk
 @st.cache(suppress_st_warning=True,allow_output_mutation=True)
 def importData(wt): 
     
-    val= pd.read_csv(wt).sample(100000)
+    val= pd.read_csv(wt,  compression='gzip').sample(100000)
     return val
 
 def selectdate():
@@ -25,7 +25,7 @@ def selectdate():
     ("2020", "2019", "2018","2017","2016")  
 )
     if (add_selectbox== "2020"):
-        df =importData("https://jtellier.fr/DataViz/full_2020.csv")
+        df =importData("https://files.data.gouv.fr/geo-dvf/latest/csv/2020/full.csv.gz")
     elif(add_selectbox== "2019"):
         df =importData("https://jtellier.fr/DataViz/full_2019.csv")
     elif(add_selectbox== "2018"):
