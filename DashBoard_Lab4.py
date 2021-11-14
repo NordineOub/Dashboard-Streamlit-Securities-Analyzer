@@ -10,24 +10,16 @@ import datetime
 def log(func):
 
     def wrapper(*args,**kwargs):
-
-       
-
         with open("logs.txt","a") as f:
-
             before=time.time()
-
             timestamp=datetime.datetime.now()
-
             val=func(*args,**kwargs)
-
-            f.write("The function "+ func.__name__ +" started at "+ str(timestamp)+" and took: "+str(time.time()-before)+" seconds to execute\n")
-
+            f.write("\nFonction : "+ func.__name__ +"\n Debut :  "+ str(timestamp)+" \n Durée: "+str(time.time()-before) + " secondes \n")
         return val
 
     return wrapper
 
-#@st.cache(suppress_st_warning=True,allow_output_mutation=True)
+@st.cache(suppress_st_warning=True,allow_output_mutation=True)
 def importData(wt): 
     
     val= pd.read_csv(wt,  compression='gzip')
@@ -70,13 +62,13 @@ def PlotDataset(rt):
     st.write("Présentation de quelques lignes de dataset")
     st.write(rt.head(5))
 
-#@st.cache(suppress_st_warning=True,allow_output_mutation=True)
+@st.cache(suppress_st_warning=True,allow_output_mutation=True)
 def FirstTrans(df):
     df["date_mutation"]= pd.to_datetime(df["date_mutation"])
     df = df.sort_values(by=['nom_commune'])
     return df
 
-#@st.cache(suppress_st_warning=True,allow_output_mutation=True)
+@st.cache(suppress_st_warning=True,allow_output_mutation=True)
 def FiltrateH(fg):
     values = fg['nom_commune'].drop_duplicates()
     return values
@@ -102,7 +94,7 @@ def PlotCode(fg,values):
     return place_to_filter
 
 def Scatter(sd,dr):
-    plt.scatter(sd,dr)
+    sns.lineplot(sd,dr)
 
     
     plt.title('Prix du terrain en fonction de la surface carré')
@@ -140,11 +132,18 @@ def Distplot(fg):
     fg, ('lot1_surface_carrez','lot2_surface_carrez','lot3_surface_carrez','lot4_surface_carrez','lot5_surface_carrez'), bin_size=[.1, .25, .5])
     st.plotly_chart(fig, use_container_width=True)
 
-def get_points_by_months(rg,dp):
+def get_points_by_ville(rg,dp):
+
+    points = rg[["valeur_fonciere","latitude","longitude","nom_commune"]]
+    points = points.loc[lambda points : points["nom_commune"] == dp]
+    return points[~(points.latitude.isna() & points.longitude.isna())][["latitude","longitude"]]
+    
+def get_points_by_dept(rg,dp):
 
     points = rg[["valeur_fonciere","latitude","longitude","code_departement"]]#.sample(n=1000, random_state=1)
     points = points.loc[lambda points : points["code_departement"] == dp]
     return points[~(points.latitude.isna() & points.longitude.isna())][["latitude","longitude"]]
+
 
 def CalculateMean(rg):
     rg['lot_total'] = rg.loc[:, rg.columns.intersection(['lot1_surface_carrez','lot2_surface_carrez','lot3_surface_carrez','lot4_surface_carrez','lot5_surface_carrez'])].astype(int).sum()
@@ -153,35 +152,59 @@ def CalculateMean(rg):
 
 def Showmap(rg,dp):
     st.subheader("Ici vous pouvez voir le nombre de transactions en fonction du département")
-    points = get_points_by_months(rg,dp)
+    points = get_points_by_dept(rg, dp)
     st.write(f"{len(points)} transactions dans le département du {dp}")
     st.map(points)
     st.caption(' Vous pouvez choisir le département via la sidebar ci-contre')
+
+def ShowmapVille(rg,dp):
+    st.subheader("Ici vous pouvez voir le nombre de transactions en fonction de la ville")
+    points= get_points_by_ville(rg,dp)
+    st.write(f"{len(points)} transactions dans le département du {dp}")
+    st.map(points)
+    st.caption(' Vous pouvez choisir le département via la sidebar ci-contre')
+    
+
 
 
 st.title ('Demandes de Valeurs foncières de 2020 à 2016')
 st.header ('Dashboard Lab4 par Nour-Eddine OUBENAMI')
 
 df=selectdate()
-
-
 df1 = FirstTrans(df)
 PlotDataset(df1)
 
+
+# -------------------------------- Departement -------------------------------------
+st.header(" Etude au niveau Départemental")
 departement ,dfdept= dept_select(df1)
 
 Showmap(df1,departement)
-values = FiltrateH(df1)
-#st.write(df1.isnull())  Permet de voir lequel est nul (ça s'affiche sous forme de booléen)
-ville =PlotCode(df1,values)
+
 SnsPlot(dfdept['type_local'])
 SnsPlot(dfdept['nature_mutation'])
 Piechart(dfdept.nature_mutation)
-CalculateMean(df1[df1['nom_commune'] == ville].notnull())
 
+#st.write(df1.isnull())  Permet de voir lequel est nul (ça s'affiche sous forme de booléen)
 
+# -------------------------------- Ville -------------------------------------
+st.header(" Etude au niveau des villes")
 
-st.subheader('Analyse du Dataset Général')
+values = FiltrateH(df1)
+
+ville =PlotCode(df1,values)
+ShowmapVille(df1,ville)
+dfv = df1.loc[lambda points : points["nom_commune"] == ville]
+
+#SnsPlot(dfv['type_local'])
+SnsPlot(dfv['nature_mutation'])
+Piechart(dfv.nature_mutation)
+
+#CalculateMean(df1[df1['nom_commune'] == ville].notnull())
+
+# -------------------------------- Analyse National -------------------------------------
+
+st.header('Analyse du Dataset Général')
 Piechart(df1.nature_mutation)
 
 Scatter(df1['lot1_surface_carrez'],df1['valeur_fonciere'])
