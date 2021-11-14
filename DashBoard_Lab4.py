@@ -207,8 +207,9 @@ Piechart(dfv.nature_mutation)
 st.header('Analyse du Dataset Général')
 Piechart(df1.nature_mutation)
 
-Scatter(df1['lot1_surface_carrez'],df1['valeur_fonciere'])
 SnsPlot(df1['type_local'])
 SnsPlot(df1['nature_mutation'])
 Scatter(df1.latitude,df.longitude)
+Scatter(df1['lot1_surface_carrez'],df1['valeur_fonciere'])
+
 #Chart(df1[['lot1_surface_carrez','lot2_surface_carrez','lot3_surface_carrez','lot4_surface_carrez','lot5_surface_carrez']].sample(n=1000, random_state=1))
