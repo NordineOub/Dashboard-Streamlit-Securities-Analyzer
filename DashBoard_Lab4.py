@@ -155,14 +155,14 @@ PlotDataset(df1)
 
 departement ,dfdept= dept_select(df1)
 
-Showmap(df1,departement)
+#Showmap(df1,departement)
 values = FiltrateH(df1)
 #st.write(df1.isnull())  Permet de voir lequel est nul (ça s'affiche sous forme de booléen)
 ville =PlotCode(df1,values)
-SnsPlot(dfdept['type_local'])
-SnsPlot(dfdept['nature_mutation'])
+#SnsPlot(dfdept['type_local'])
+#SnsPlot(dfdept['nature_mutation'])
 Piechart(dfdept.nature_mutation)
-CalculateMean(df1[df1['nom_commune'] == ville].notnull())
+#CalculateMean(df1[df1['nom_commune'] == ville].notnull())
 
 
 
