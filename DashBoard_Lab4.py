@@ -4,12 +4,8 @@ import pandas as pd
 import matplotlib
 from matplotlib import pyplot as plt
 import seaborn as sns
-import timeit
-import sys
 import time
 import datetime
-import streamlit.components.v1 as components
-from functools import wraps
 
 def log(func):
 
