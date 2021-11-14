@@ -16,8 +16,8 @@ import pydeck as pdk
 @st.cache(suppress_st_warning=True,allow_output_mutation=True)
 def importData(wt): 
     
-    val= pd.read_csv(wt,  compression='gzip').sample(100000)
-    return val
+    val= pd.read_csv(wt,  compression='gzip')
+    return val.sample(500000)
 
 def selectdate():
     add_selectbox = st.sidebar.radio(
