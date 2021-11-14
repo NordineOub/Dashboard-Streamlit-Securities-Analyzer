@@ -7,11 +7,32 @@ import seaborn as sns
 import timeit
 import sys
 import time
+import datetime
 import streamlit as st
 import streamlit.components.v1 as components
 from functools import wraps
+import sweetviz as sv
 import pydeck as pdk
 
+def log(func):
+
+    def wrapper(*args,**kwargs):
+
+       
+
+        with open("logs.txt","a") as f:
+
+            before=time.time()
+
+            timestamp=datetime.datetime.now()
+
+            val=func(*args,**kwargs)
+
+            f.write("The function "+ func.__name__ +" started at "+ str(timestamp)+" and took: "+str(time.time()-before)+" seconds to execute\n")
+
+        return val
+
+    return wrapper
 
 @st.cache(suppress_st_warning=True,allow_output_mutation=True)
 def importData(wt): 
@@ -19,6 +40,7 @@ def importData(wt):
     val= pd.read_csv(wt,  compression='gzip')
     return val.sample(500000)
 
+@log
 def selectdate():
     add_selectbox = st.sidebar.radio(
     "Année :",
@@ -27,13 +49,13 @@ def selectdate():
     if (add_selectbox== "2020"):
         df =importData("https://files.data.gouv.fr/geo-dvf/latest/csv/2020/full.csv.gz")
     elif(add_selectbox== "2019"):
-        df =importData("https://files.data.gouv.fr/geo-dvf/latest/csv/2019/full.csv.gz")
+        df =importData("https://jtellier.fr/DataViz/full_2019.csv")
     elif(add_selectbox== "2018"):
-        df =importData("https://files.data.gouv.fr/geo-dvf/latest/csv/2018/full.csv.gz")
+        df =importData("https://jtellier.fr/DataViz/full_2018.csv")
     elif(add_selectbox== "2017"):
-        df =importData("https://files.data.gouv.fr/geo-dvf/latest/csv/2017/full.csv.gz")
+        df =importData("https://jtellier.fr/DataViz/full_2017.csv")
     elif(add_selectbox== "2016"):
-        df =importData("https://files.data.gouv.fr/geo-dvf/latest/csv/2016/full.csv.gz")
+        df =importData("https://jtellier.fr/DataViz/full_2016.csv")
     return df
 def dept_select(df):
     # Get names of indexes for which column Stock has value No
@@ -44,7 +66,7 @@ def dept_select(df):
     dfdept = df[df['code_departement'] == int(tjr_selectbox)]
     return int(tjr_selectbox), dfdept
 
-
+@log
 def PlotDataset(rt):
     st.write("Description du dataset :")
     st.write(rt.describe())
