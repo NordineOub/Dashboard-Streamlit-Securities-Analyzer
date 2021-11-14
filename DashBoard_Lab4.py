@@ -27,7 +27,7 @@ def log(func):
 
     return wrapper
 
-@st.cache(suppress_st_warning=True,allow_output_mutation=True)
+#@st.cache(suppress_st_warning=True,allow_output_mutation=True)
 def importData(wt): 
     
     val= pd.read_csv(wt,  compression='gzip')
@@ -70,13 +70,13 @@ def PlotDataset(rt):
     st.write("Présentation de quelques lignes de dataset")
     st.write(rt.head(5))
 
-@st.cache(suppress_st_warning=True,allow_output_mutation=True)
+#@st.cache(suppress_st_warning=True,allow_output_mutation=True)
 def FirstTrans(df):
     df["date_mutation"]= pd.to_datetime(df["date_mutation"])
     df = df.sort_values(by=['nom_commune'])
     return df
 
-@st.cache(suppress_st_warning=True,allow_output_mutation=True)
+#@st.cache(suppress_st_warning=True,allow_output_mutation=True)
 def FiltrateH(fg):
     values = fg['nom_commune'].drop_duplicates()
     return values
