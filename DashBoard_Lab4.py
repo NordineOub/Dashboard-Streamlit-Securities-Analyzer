@@ -161,19 +161,19 @@ values = FiltrateH(df1)
 ville =PlotCode(df1,values)
 #SnsPlot(dfdept['type_local'])
 #SnsPlot(dfdept['nature_mutation'])
-Piechart(dfdept.nature_mutation)
+#Piechart(dfdept.nature_mutation)
 #CalculateMean(df1[df1['nom_commune'] == ville].notnull())
 
 
 
 st.subheader('Analyse du Dataset Général')
-Piechart(df1.nature_mutation)
+#Piechart(df1.nature_mutation)
 
-Scatter(df1['lot1_surface_carrez'],df1['valeur_fonciere'])
-SnsPlot(df1['type_local'])
-SnsPlot(df1['nature_mutation'])
-Scatter(df1.latitude,df.longitude)
-Chart(df1[['lot1_surface_carrez','lot2_surface_carrez','lot3_surface_carrez','lot4_surface_carrez','lot5_surface_carrez']].sample(n=1000, random_state=1))
+#Scatter(df1['lot1_surface_carrez'],df1['valeur_fonciere'])
+#SnsPlot(df1['type_local'])
+#SnsPlot(df1['nature_mutation'])
+#Scatter(df1.latitude,df.longitude)
+#Chart(df1[['lot1_surface_carrez','lot2_surface_carrez','lot3_surface_carrez','lot4_surface_carrez','lot5_surface_carrez']].sample(n=1000, random_state=1))
 
 
 #plt.hist(df[['valeur_fonciere','surface_terrain']])
