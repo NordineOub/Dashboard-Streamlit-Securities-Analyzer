@@ -10,6 +10,7 @@ import time
 import streamlit as st
 import streamlit.components.v1 as components
 from functools import wraps
+import sweetviz as sv
 import pydeck as pdk
 
 
@@ -27,13 +28,13 @@ def selectdate():
     if (add_selectbox== "2020"):
         df =importData("https://files.data.gouv.fr/geo-dvf/latest/csv/2020/full.csv.gz")
     elif(add_selectbox== "2019"):
-        df =importData("https://jtellier.fr/DataViz/full_2019.csv")
+        df =importData("https://files.data.gouv.fr/geo-dvf/latest/csv/2019/full.csv.gz")
     elif(add_selectbox== "2018"):
-        df =importData("https://jtellier.fr/DataViz/full_2018.csv")
+        df =importData("https://files.data.gouv.fr/geo-dvf/latest/csv/2018/full.csv.gz")
     elif(add_selectbox== "2017"):
-        df =importData("https://jtellier.fr/DataViz/full_2017.csv")
+        df =importData("https://files.data.gouv.fr/geo-dvf/latest/csv/2017/full.csv.gz")
     elif(add_selectbox== "2016"):
-        df =importData("https://jtellier.fr/DataViz/full_2016.csv")
+        df =importData("https://files.data.gouv.fr/geo-dvf/latest/csv/2016/full.csv.gz")
     return df
 def dept_select(df):
     # Get names of indexes for which column Stock has value No
@@ -155,36 +156,22 @@ PlotDataset(df1)
 
 departement ,dfdept= dept_select(df1)
 
-#Showmap(df1,departement)
+Showmap(df1,departement)
 values = FiltrateH(df1)
 #st.write(df1.isnull())  Permet de voir lequel est nul (ça s'affiche sous forme de booléen)
 ville =PlotCode(df1,values)
-#SnsPlot(dfdept['type_local'])
-#SnsPlot(dfdept['nature_mutation'])
-#Piechart(dfdept.nature_mutation)
-#CalculateMean(df1[df1['nom_commune'] == ville].notnull())
+SnsPlot(dfdept['type_local'])
+SnsPlot(dfdept['nature_mutation'])
+Piechart(dfdept.nature_mutation)
+CalculateMean(df1[df1['nom_commune'] == ville].notnull())
 
 
 
 st.subheader('Analyse du Dataset Général')
-#Piechart(df1.nature_mutation)
+Piechart(df1.nature_mutation)
 
-#Scatter(df1['lot1_surface_carrez'],df1['valeur_fonciere'])
-#SnsPlot(df1['type_local'])
-#SnsPlot(df1['nature_mutation'])
-#Scatter(df1.latitude,df.longitude)
+Scatter(df1['lot1_surface_carrez'],df1['valeur_fonciere'])
+SnsPlot(df1['type_local'])
+SnsPlot(df1['nature_mutation'])
+Scatter(df1.latitude,df.longitude)
 #Chart(df1[['lot1_surface_carrez','lot2_surface_carrez','lot3_surface_carrez','lot4_surface_carrez','lot5_surface_carrez']].sample(n=1000, random_state=1))
-
-
-#plt.hist(df[['valeur_fonciere','surface_terrain']])
-#st.pyplot()
-
-
-#st.map(df.drop(df.columns.difference(['latitude','longitude']), 1, inplace=True), zoom =8,use_container_width=True)
-
-
-
-
-#colorizeScatter(df.latitude,df.longitude)
-#distance = df['latitude','longitude']
-#st.map(distance)
