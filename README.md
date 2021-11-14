@@ -27,6 +27,16 @@ To import the data properly, they are stored and retrieved by a .gz compression 
 
 The logs contain the name, launch date and duration of different programs. It is possible to see the logs in the logs.txt file
 
+You can also change the sample taken by the dashboard by writing the chosen value in this function : 
+```s
+def importData(wt): 
+    
+    val= pd.read_csv(wt,  compression='gzip')
+    return val.sample(500000) # Here you choose the number of sample you want
+
+```
+Note that the more sample you choose, the longer loading will be.
+
 # Streamlit Share
 
 The streamlit share link was produced but it does not work for the following reasons:
