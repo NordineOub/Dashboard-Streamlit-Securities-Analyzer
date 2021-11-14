@@ -26,3 +26,12 @@ Several study layers are available:
 To import the data properly, they are stored and retrieved by a .gz compression system, a program will import and parsing.
 
 The logs contain the name, launch date and duration of different programs. It is possible to see the logs in the logs.txt file
+
+# Streamlit Share
+
+The streamlit share link was produced but it does not work for the following reasons:
+- CSV file is much too large, the virtual machine does not accept to retrieve and study so much information
+- The RAM allocated by the streamlit team is not sufficient to display all the code with such large csv files, despite the fact that the import only uses a sample of 500,000 lines
+
+The link is as follows: 
+## https://share.streamlit.io/nordineoub/dashboard_lab4/main/DashBoard_Lab4.py
