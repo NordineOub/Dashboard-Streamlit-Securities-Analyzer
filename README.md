@@ -1,4 +1,4 @@
-# Dashboard Lab 4 Datavisualization
+# Dashboard Streamlit Securities Analyzer
 
 This program studies requests for land values in France between 2016 and 2020 and allows any user to view the information as close as possible to the field.
 
